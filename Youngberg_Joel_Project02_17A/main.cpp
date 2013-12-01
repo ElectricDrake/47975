@@ -13,6 +13,7 @@
 #include <iomanip>//Formatting
 #include <string>//For strings
 #include <fstream>//Read & Write to file
+#include "slot.h"
 using namespace std;
 
 //Global variables and constants
@@ -20,17 +21,7 @@ using namespace std;
 //Do not use these unless applicable!! Good way to earn an F!
 //Use dynamic allocation where possible
 
-//Structure declarations
-//Creating a structure for a random array of structures
-//representing the tile game pieces
 
-struct Slot {
-    int slotVal;//Empty = 0 White = 1 or Black = 2
-    string white;//white Graphic
-    string black;//black Graphic
-    string empty;//displays when empty
-    string invis;//to make it invisible
-};
 
 //All function prototypes
 //Board display
@@ -74,6 +65,7 @@ int flipWhiteW(Slot **, int, int);
 int main()
 {
   //Declaring Variables
+
     Slot **brdAry; //2Dimensional Array for board
     int NUM_ROWS, NUM_COLS;
     int grid1, grid2;
