@@ -6,5 +6,6 @@ CONFIG -= qt
 SOURCES += main.cpp
 
 HEADERS += \
-    slot.h
+    SlotBase.h \
+    Slot.h
 

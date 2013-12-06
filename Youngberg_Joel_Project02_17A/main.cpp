@@ -13,7 +13,8 @@
 #include <iomanip>//Formatting
 #include <string>//For strings
 #include <fstream>//Read & Write to file
-#include "slot.h"
+#include "SlotBase.h"
+#include "Slot.h"
 using namespace std;
 
 //Global variables and constants
@@ -68,11 +69,11 @@ int main()
 
     Slot **brdAry; //2Dimensional Array for board
     int NUM_ROWS, NUM_COLS;
-    int grid1, grid2;
+    int grid1, grid2;//To hold user board choices
     int flipNW =0, flipN =0, flipNE =0, flipE =0;
     int flipSE =0, flipS =0, flipSW =0, flipW =0;
-    static int passTrn =0;
-    int tlWhite =0, tlBlack =0;
+    static int passTrn =0;//Storing amount of times user passes turn (twice in a row ends game)
+    int tlWhite =0, tlBlack =0;//Storing end game score tallys
     int white =0, black =0, tie =0;
 
     //File I/O variables
@@ -107,33 +108,34 @@ int main()
         for (int i = 0; i < NUM_ROWS; i++)//Dynamically allocating 2D array of pointers
         brdAry[i] = new Slot[NUM_COLS];
 
-
+    //This was no longer needed because the constructor does this initialization
+        //upon creation of each object...
     //initialization of structure array to empty/zero slot value - plugging in graphic strings
-    for(int i = 0; i < NUM_ROWS; i++){//Fill array with zeros (set to empty)
-        for (int j = 0; j < NUM_COLS; j++){
-            brdAry[i][j].slotVal = 0;
-            brdAry[i][j].empty = "[]";
-            brdAry[i][j].white = " *";
-            brdAry[i][j].black = " O";
-            brdAry[i][j].invis = "  ";
-        }
-    }
+    //for(int i = 0; i < NUM_ROWS; i++){//Fill array with zeros (set to empty)
+        //for (int j = 0; j < NUM_COLS; j++){
+            //brdAry[i][j].slotVal = 0;
+           // brdAry[i][j].empty = "[]";
+            //brdAry[i][j].white = " *";
+            //brdAry[i][j].black = " O";
+            //brdAry[i][j].invis = "  ";
+        //}
+    //}
 
     //Initialize four center values depending on size chosen by user(game setup)
     int initNum1 = NUM_ROWS/2 -1;
     int initNum2 = initNum1;
 
-    brdAry[initNum1][initNum2].slotVal = 1;//Top Left initialization
-    brdAry[initNum1+1][initNum2].slotVal = 2;
-    brdAry[initNum1][initNum2+1].slotVal = 2;
-    brdAry[initNum1+1][initNum2+1].slotVal = 1;
+    brdAry[initNum1][initNum2].setSlotVal(1);//Top Left initialization
+    brdAry[initNum1+1][initNum2].setSlotVal(2);
+    brdAry[initNum1][initNum2+1].setSlotVal(2);
+    brdAry[initNum1+1][initNum2+1].setSlotVal(1);
 
     //Initialize outer border of array to make it invisible to user (out of bounds prevention)
     for (int i =0; i < NUM_ROWS; i++){
-        brdAry[i][0].slotVal = 3;//Initializing left column to 3 for invisibility
-        brdAry[0][i].slotVal = 3;//Initializing top row to 3 for invisibilty
-        brdAry[NUM_ROWS-1][i].slotVal = 3;//Bottom row - invisibility
-        brdAry[i][NUM_COLS-1].slotVal = 3;//right column - invisibility
+        brdAry[i][0].setSlotVal(3);//Initializing left column to 3 for invisibility
+        brdAry[0][i].setSlotVal(3);//Initializing top row to 3 for invisibilty
+        brdAry[NUM_ROWS-1][i].setSlotVal(3);//Bottom row - invisibility
+        brdAry[i][NUM_COLS-1].setSlotVal(3);//right column - invisibility
     }
 
 
@@ -164,7 +166,7 @@ int main()
         continue;
     }
     //Validating Move - Did the user choose an empty slot?
-        if (brdAry[grid1][grid2].slotVal == 1 || brdAry[grid1][grid2].slotVal == 2){
+    if (brdAry[grid1][grid2].getSlotVal() == 1 || brdAry[grid1][grid2].getSlotVal() == 2){
             cout << endl;
             cout << "That board position has already been taken..." << endl;
             cout << "Please enter a different position or enter -1 -1 to pass the turn." << endl;
@@ -175,7 +177,7 @@ int main()
     flipNW = checkForWhiteNW(brdAry, grid1, grid2);
     if(flipNW == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to black (move is valid)
-        brdAry[grid1][grid2].slotVal = 2;
+        brdAry[grid1][grid2].setSlotVal(2);
         //Flipping all whites to black in NW direction
         flipWhiteNW(brdAry, grid1, grid2);
     }
@@ -184,7 +186,7 @@ int main()
     flipN = checkForWhiteN(brdAry, grid1, grid2);
     if(flipN == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to black (move is valid)
-        brdAry[grid1][grid2].slotVal = 2;
+        brdAry[grid1][grid2].setSlotVal(2);
         //Flipping all whites to black in N direction
         flipWhiteN(brdAry, grid1, grid2);
     }
@@ -193,7 +195,7 @@ int main()
     flipNE = checkForWhiteNE(brdAry, grid1, grid2);
     if(flipNE == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to black (move is valid)
-        brdAry[grid1][grid2].slotVal = 2;
+        brdAry[grid1][grid2].setSlotVal(2);
         //Flipping all whites to black in N direction
         flipWhiteNE(brdAry, grid1, grid2);
     }
@@ -202,7 +204,7 @@ int main()
     flipE = checkForWhiteE(brdAry, grid1, grid2);
     if(flipE == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to black (move is valid)
-        brdAry[grid1][grid2].slotVal = 2;
+        brdAry[grid1][grid2].setSlotVal(2);
         //Flipping all whites to black in N direction
         flipWhiteE(brdAry, grid1, grid2);
     }
@@ -211,7 +213,7 @@ int main()
     flipSE = checkForWhiteSE(brdAry, grid1, grid2);
     if(flipSE == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to black (move is valid)
-        brdAry[grid1][grid2].slotVal = 2;
+        brdAry[grid1][grid2].setSlotVal(2);
         //Flipping all whites to black in N direction
         flipWhiteSE(brdAry, grid1, grid2);
     }
@@ -220,7 +222,7 @@ int main()
     flipS = checkForWhiteS(brdAry, grid1, grid2);
     if(flipS == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to black (move is valid)
-        brdAry[grid1][grid2].slotVal = 2;
+        brdAry[grid1][grid2].setSlotVal(2);
         //Flipping all whites to black in N direction
         flipWhiteS(brdAry, grid1, grid2);
     }
@@ -229,7 +231,7 @@ int main()
     flipSW = checkForWhiteSW(brdAry, grid1, grid2);
     if(flipSW == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to black (move is valid)
-        brdAry[grid1][grid2].slotVal = 2;
+        brdAry[grid1][grid2].setSlotVal(2);
         //Flipping all whites to black in N direction
         flipWhiteSW(brdAry, grid1, grid2);
     }
@@ -238,7 +240,7 @@ int main()
     flipW = checkForWhiteW(brdAry, grid1, grid2);
     if(flipW == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to black (move is valid)
-        brdAry[grid1][grid2].slotVal = 2;
+        brdAry[grid1][grid2].setSlotVal(2);
         //Flipping all whites to black in N direction
         flipWhiteW(brdAry, grid1, grid2);
     }
@@ -278,7 +280,7 @@ int main()
         break;
     }
     //Validating Move - Did the user choose an empty slot?
-        if (brdAry[grid1][grid2].slotVal == 1 || brdAry[grid1][grid2].slotVal == 2){
+    if(brdAry[grid1][grid2].getSlotVal() == 1 || brdAry[grid1][grid2].getSlotVal() == 2){
             cout << "That board position has already been taken..." << endl;
             cout << "Please enter a different position or enter -1 to pass the turn." << endl;
             continue;
@@ -288,7 +290,7 @@ int main()
     flipNW = checkForBlackNW(brdAry, grid1, grid2);
     if(flipNW == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to white (move is valid)
-        brdAry[grid1][grid2].slotVal = 1;
+        brdAry[grid1][grid2].setSlotVal(1);
         //Flipping all blacks to white in NW direction
         flipBlackNW(brdAry, grid1, grid2);
     }
@@ -297,7 +299,7 @@ int main()
     flipN = checkForBlackN(brdAry, grid1, grid2);
     if(flipN == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to white (move is valid)
-        brdAry[grid1][grid2].slotVal = 1;
+        brdAry[grid1][grid2].setSlotVal(1);
         //Flipping all blacks to white in N direction
         flipBlackN(brdAry, grid1, grid2);
     }
@@ -306,7 +308,7 @@ int main()
     flipNE = checkForBlackNE(brdAry, grid1, grid2);
     if(flipNE == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to white (move is valid)
-        brdAry[grid1][grid2].slotVal = 1;
+        brdAry[grid1][grid2].setSlotVal(1);
         //Flipping all blacks to white in N direction
         flipBlackNE(brdAry, grid1, grid2);
     }
@@ -315,7 +317,7 @@ int main()
     flipE = checkForBlackE(brdAry, grid1, grid2);
     if(flipE == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to white (move is valid)
-        brdAry[grid1][grid2].slotVal = 1;
+        brdAry[grid1][grid2].setSlotVal(1);
         //Flipping all blacks to white in N direction
         flipBlackE(brdAry, grid1, grid2);
     }
@@ -324,7 +326,7 @@ int main()
     flipSE = checkForBlackSE(brdAry, grid1, grid2);
     if(flipSE == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to white (move is valid)
-        brdAry[grid1][grid2].slotVal = 1;
+        brdAry[grid1][grid2].setSlotVal(1);
         //Flipping all blacks to white in N direction
         flipBlackSE(brdAry, grid1, grid2);
     }
@@ -333,7 +335,7 @@ int main()
     flipS = checkForBlackS(brdAry, grid1, grid2);
     if(flipS == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to white (move is valid)
-        brdAry[grid1][grid2].slotVal = 1;
+        brdAry[grid1][grid2].setSlotVal(1);
         //Flipping all blacks to white in N direction
         flipBlackS(brdAry, grid1, grid2);
     }
@@ -342,7 +344,7 @@ int main()
     flipSW = checkForBlackSW(brdAry, grid1, grid2);
     if(flipSW == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to white (move is valid)
-        brdAry[grid1][grid2].slotVal = 1;
+        brdAry[grid1][grid2].setSlotVal(1);
         //Flipping all blacks to white in N direction
         flipBlackSW(brdAry, grid1, grid2);
     }
@@ -351,7 +353,7 @@ int main()
     flipW = checkForBlackW(brdAry, grid1, grid2);
     if(flipW == 1){//Checking if move was valid for northwest direction
         //Set chosen piece to white (move is valid)
-        brdAry[grid1][grid2].slotVal = 1;
+        brdAry[grid1][grid2].setSlotVal(1);
         //Flipping all blacks to white in N direction
         flipBlackW(brdAry, grid1, grid2);
     }
@@ -379,9 +381,9 @@ int main()
     {
         for(int j =0; j < NUM_COLS; j++)
         {
-            if(brdAry[i][j].slotVal == 1)
+            if(brdAry[i][j].getSlotVal() == 1)
                 tlWhite++;
-            if(brdAry[i][j].slotVal == 2)
+            if(brdAry[i][j].getSlotVal() == 2)
                 tlBlack++;
         }
     }
@@ -413,7 +415,7 @@ int main()
     fstream file;// Read/Write object
     file.open("G:\\RCC\\C++\\winloss.txt", ios::app);//opening/creating file
     if (!file)
-        cout << "Error opening/creating/writing to file... check filepath line 410..." << endl;
+        cout << "Error opening/creating/writing to file... check filepath line 416..." << endl;
 
     //Writing the win/loss statistics to the file
     file << tlBlack << endl;
@@ -427,7 +429,7 @@ int main()
 
     file.open("G:\\RCC\\C++\\winloss.txt", ios::in);//opening/file to read
     if (!file)
-        cout << "Error opening/creating/writing to file... check filepath line 424..." << endl;
+        cout << "Error opening/creating/writing to file... check filepath line 430..." << endl;
     while(file){
         file >> blkTemp;
         if(blkTemp > blkHigh)
@@ -476,7 +478,7 @@ int main()
     }
 
 
-    //Free dynamic memory
+    //Free dynamic memory - No memory leaks here!!
                 for (int i = 0; i < NUM_ROWS; i++){
                 delete [] brdAry[i];
                 brdAry[i] =0;
@@ -504,14 +506,14 @@ void displayBoard(Slot **brdAry, int NUM_ROWS, int NUM_COLS){
             cout << i;
         for (int j = 0; j < NUM_COLS; j++)
         {
-            if (brdAry[i][j].slotVal == 0)
-            cout << setw(2) << brdAry[i][j].empty;
-            if (brdAry[i][j].slotVal == 1)
-            cout << setw(2) << brdAry[i][j].white;
-            if (brdAry[i][j].slotVal == 2)
-            cout << setw(2) << brdAry[i][j].black;
-            if (brdAry[i][j].slotVal == 3)
-            cout << setw(2) << brdAry[i][j].invis;
+            if (brdAry[i][j].getSlotVal() == 0)
+                cout << setw(2) << brdAry[i][j].getEmpty();
+            if (brdAry[i][j].getSlotVal() == 1)
+                cout << setw(2) << brdAry[i][j].getWhite();
+            if (brdAry[i][j].getSlotVal() == 2)
+                cout << setw(2) << brdAry[i][j].getBlack();
+            if (brdAry[i][j].getSlotVal() == 3)
+                cout << setw(2) << brdAry[i][j].getInvis();
         }
       cout << endl;
      }
@@ -525,9 +527,9 @@ int checkForBlackNW(Slot **brdAry, int grid1, int grid2){
         grid1--;//Checking northwest one spot
         grid2--;
         check++;
-    }while(brdAry[grid1][grid2].slotVal == 2);
+    }while(brdAry[grid1][grid2].getSlotVal() == 2);
 
-    if (brdAry[grid1][grid2].slotVal == 1 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1 && check > 1)
         return 1;
     else return 0;
 }//End function checkForBlackNW
@@ -536,13 +538,13 @@ int flipBlackNW(Slot **brdAry, int grid1, int grid2){
         grid1--;//Move northwest one spot
         grid2--;
 
-    while(brdAry[grid1][grid2].slotVal == 2){//looping until something other than 2 is found
-        brdAry[grid1][grid2].slotVal -= 1;//Changing black piece to white
+    while(brdAry[grid1][grid2].getSlotVal() == 2){//looping until something other than 2 is found
+        brdAry[grid1][grid2].setSlotVal(1);//Changing black piece to white
         grid1--;//Move northwest one spot
         grid2--;
     };
 
-    if (brdAry[grid1][grid2].slotVal == 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1)
         return 1;
     else return 0;
 }// End Function Flip Black NW
@@ -552,9 +554,9 @@ int checkForBlackN(Slot **brdAry, int grid1, int grid2){
     do{
         grid1--;//Checking north one spot
         check++;
-    }while(brdAry[grid1][grid2].slotVal == 2);
+    }while(brdAry[grid1][grid2].getSlotVal() == 2);
 
-    if (brdAry[grid1][grid2].slotVal == 1 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1 && check > 1)
         return 1;
     else return 0;
 }//End function checkForBlackN
@@ -563,13 +565,13 @@ int flipBlackN(Slot **brdAry, int grid1, int grid2){
 
         grid1--;//Move north one spot
 
-    while(brdAry[grid1][grid2].slotVal == 2){//looping until something other than 2 is found
-        brdAry[grid1][grid2].slotVal -= 1;//Changing black piece to white
+    while(brdAry[grid1][grid2].getSlotVal() == 2){//looping until something other than 2 is found
+        brdAry[grid1][grid2].setSlotVal(1);//Changing black piece to white
         grid1--;//Move north one spot
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1)
         return 1;
     else return 0;
 }//End Function Flip BlackN
@@ -581,9 +583,9 @@ int checkForBlackNE(Slot **brdAry, int grid1, int grid2){
         grid2++;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 2);
+    }while(brdAry[grid1][grid2].getSlotVal() == 2);
 
-    if (brdAry[grid1][grid2].slotVal == 1 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1 && check > 1)
         return 1;
     else return 0;
 }//End function checkForBlackNE
@@ -593,13 +595,13 @@ int flipBlackNE(Slot **brdAry, int grid1, int grid2){
         grid1--;//Move northeast one spot
         grid2++;
 
-    while(brdAry[grid1][grid2].slotVal == 2){//looping until something other than 2 is found
-        brdAry[grid1][grid2].slotVal -= 1;//Changing black piece to white
+    while(brdAry[grid1][grid2].getSlotVal() == 2){//looping until something other than 2 is found
+        brdAry[grid1][grid2].setSlotVal(1);//Changing black piece to white
         grid1--;//Move northeast one spot
         grid2++;
         };
 
-    if (brdAry[grid1][grid2].slotVal == 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1)
         return 1;
     else return 0;
 }//End Function Flip BlackNE
@@ -611,9 +613,9 @@ int checkForBlackE(Slot **brdAry, int grid1, int grid2){
         grid2++;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 2);
+    }while(brdAry[grid1][grid2].getSlotVal() == 2);
 
-    if (brdAry[grid1][grid2].slotVal == 1 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1 && check > 1)
         return 1;
     else return 0;
 }//End function checkForBlackE
@@ -623,13 +625,13 @@ int flipBlackE(Slot **brdAry, int grid1, int grid2){
         //Move east one spot
         grid2++;
 
-    while(brdAry[grid1][grid2].slotVal == 2){//looping until something other than 2 is found
-        brdAry[grid1][grid2].slotVal -= 1;//Changing black piece to white
+    while(brdAry[grid1][grid2].getSlotVal() == 2){//looping until something other than 2 is found
+        brdAry[grid1][grid2].setSlotVal(1);//Changing black piece to white
         //Move east one spot
         grid2++;
         };
 
-    if (brdAry[grid1][grid2].slotVal == 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1)
         return 1;
     else return 0;
 }//End Function Flip BlackE
@@ -642,9 +644,9 @@ int checkForBlackSE(Slot **brdAry, int grid1, int grid2){
         grid2++;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 2);
+    }while(brdAry[grid1][grid2].getSlotVal() == 2);
 
-    if (brdAry[grid1][grid2].slotVal == 1 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1 && check > 1)
         return 1;
     else return 0;
 }//End function checkForBlackSE
@@ -655,15 +657,15 @@ int flipBlackSE(Slot **brdAry, int grid1, int grid2){
         grid1++;
         grid2++;
 
-    while(brdAry[grid1][grid2].slotVal == 2){//looping until something other than 2 is found
-        brdAry[grid1][grid2].slotVal -= 1;//Changing black piece to white
+    while(brdAry[grid1][grid2].getSlotVal() == 2){//looping until something other than 2 is found
+        brdAry[grid1][grid2].setSlotVal(1);//Changing black piece to white
         //Move southeast one spot
         grid1++;
         grid2++;
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1)
         return 1;
     else return 0;
 }//End Function Flip BlackSE
@@ -675,9 +677,9 @@ int checkForBlackS(Slot **brdAry, int grid1, int grid2){
         grid1++;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 2);
+    }while(brdAry[grid1][grid2].getSlotVal() == 2);
 
-    if (brdAry[grid1][grid2].slotVal == 1 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1 && check > 1)
         return 1;
     else return 0;
 }//End function checkForBlackS
@@ -688,15 +690,15 @@ int flipBlackS(Slot **brdAry, int grid1, int grid2){
         grid1++;
 
 
-    while(brdAry[grid1][grid2].slotVal == 2){//looping until something other than 2 is found
-        brdAry[grid1][grid2].slotVal -= 1;//Changing black piece to white
+    while(brdAry[grid1][grid2].getSlotVal() == 2){//looping until something other than 2 is found
+        brdAry[grid1][grid2].setSlotVal(1);//Changing black piece to white
         //Move south one spot
         grid1++;
 
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1)
         return 1;
     else return 0;
 }//End Function Flip BlackS
@@ -709,9 +711,9 @@ int checkForBlackSW(Slot **brdAry, int grid1, int grid2){
         grid2--;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 2);
+    }while(brdAry[grid1][grid2].getSlotVal() == 2);
 
-    if (brdAry[grid1][grid2].slotVal == 1 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1 && check > 1)
         return 1;
     else return 0;
 }//End function checkForBlackSW
@@ -722,15 +724,15 @@ int flipBlackSW(Slot **brdAry, int grid1, int grid2){
         grid1++;
         grid2--;
 
-    while(brdAry[grid1][grid2].slotVal == 2){//looping until something other than 2 is found
-        brdAry[grid1][grid2].slotVal -= 1;//Changing black piece to white
+    while(brdAry[grid1][grid2].getSlotVal() == 2){//looping until something other than 2 is found
+        brdAry[grid1][grid2].setSlotVal(1);//Changing black piece to white
         //Move southwest one spot
         grid1++;
         grid2--;
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1)
         return 1;
     else return 0;
 }//End Function Flip BlackSW
@@ -742,9 +744,9 @@ int checkForBlackW(Slot **brdAry, int grid1, int grid2){
         grid2--;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 2);
+    }while(brdAry[grid1][grid2].getSlotVal() == 2);
 
-    if (brdAry[grid1][grid2].slotVal == 1 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1 && check > 1)
         return 1;
     else return 0;
 }//End function checkForBlackW
@@ -754,14 +756,14 @@ int flipBlackW(Slot **brdAry, int grid1, int grid2){
         //Move west one spot
         grid2--;
 
-    while(brdAry[grid1][grid2].slotVal == 2){//looping until something other than 2 is found
-        brdAry[grid1][grid2].slotVal -= 1;//Changing black piece to white
+    while(brdAry[grid1][grid2].getSlotVal() == 2){//looping until something other than 2 is found
+        brdAry[grid1][grid2].setSlotVal(1);//Changing black piece to white
         //Move west one spot
         grid2--;
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 1)
         return 1;
     else return 0;
 }//End Function Flip BlackW
@@ -775,9 +777,9 @@ int checkForWhiteNW(Slot **brdAry, int grid1, int grid2){
         grid2--;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 1);
+    }while(brdAry[grid1][grid2].getSlotVal() == 1);
 
-    if (brdAry[grid1][grid2].slotVal == 2 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 2 && check > 1)
         return 1;
     else return 0;
 }//End function checkForWhiteNW
@@ -786,13 +788,13 @@ int flipWhiteNW(Slot **brdAry, int grid1, int grid2){
         grid1--;//Move northwest one spot
         grid2--;
 
-    while(brdAry[grid1][grid2].slotVal == 1){//looping until something other than 1 is found
-        brdAry[grid1][grid2].slotVal += 1;//Changing white piece to black
+    while(brdAry[grid1][grid2].getSlotVal() == 1){//looping until something other than 1 is found
+        brdAry[grid1][grid2].setSlotVal(2);//Changing white piece to black
         grid1--;//Move northwest one spot
         grid2--;
     };
 
-    if (brdAry[grid1][grid2].slotVal == 2)//When a black is found, return
+    if (brdAry[grid1][grid2].getSlotVal() == 2)//When a black is found, return
         return 1;
     else return 0;
 }// End Function Flip White NW
@@ -803,9 +805,9 @@ int checkForWhiteN(Slot **brdAry, int grid1, int grid2){
         grid1--;//Checking north one spot
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 1);
+    }while(brdAry[grid1][grid2].getSlotVal() == 1);
 
-    if (brdAry[grid1][grid2].slotVal == 2 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 2 && check > 1)
         return 1;
     else return 0;
 }//End function checkForWhiteN
@@ -815,13 +817,13 @@ int flipWhiteN(Slot **brdAry, int grid1, int grid2){
         grid1--;//Move north one spot
 
 
-    while(brdAry[grid1][grid2].slotVal == 1){//looping until something other than 1 is found
-        brdAry[grid1][grid2].slotVal += 1;//Changing white piece to black
+    while(brdAry[grid1][grid2].getSlotVal() == 1){//looping until something other than 1 is found
+        brdAry[grid1][grid2].setSlotVal(2);//Changing white piece to black
         grid1--;//Move north one spot
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 2)
+    if (brdAry[grid1][grid2].getSlotVal() == 2)
         return 1;
     else return 0;
 }//End Function Flip WhiteN
@@ -833,9 +835,9 @@ int checkForWhiteNE(Slot **brdAry, int grid1, int grid2){
         grid2++;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 1);
+    }while(brdAry[grid1][grid2].getSlotVal() == 1);
 
-    if (brdAry[grid1][grid2].slotVal == 2 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 2 && check > 1)
         return 1;
     else return 0;
 }//End function checkForWhiteNE
@@ -845,14 +847,14 @@ int flipWhiteNE(Slot **brdAry, int grid1, int grid2){
         grid1--;//Move northeast one spot
         grid2++;
 
-    while(brdAry[grid1][grid2].slotVal == 1){//looping until something other than 1 is found
-        brdAry[grid1][grid2].slotVal += 1;//Changing white piece to black
+    while(brdAry[grid1][grid2].getSlotVal() == 1){//looping until something other than 1 is found
+        brdAry[grid1][grid2].setSlotVal(2);//Changing white piece to black
         grid1--;//Move northeast one spot
         grid2++;
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 2)
+    if (brdAry[grid1][grid2].getSlotVal() == 2)
         return 1;
     else return 0;
 }//End Function Flip WhiteNE
@@ -864,9 +866,9 @@ int checkForWhiteE(Slot **brdAry, int grid1, int grid2){
         grid2++;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 1);
+    }while(brdAry[grid1][grid2].getSlotVal() == 1);
 
-    if (brdAry[grid1][grid2].slotVal == 2 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 2 && check > 1)
         return 1;
     else return 0;
 }//End function checkForWhiteE
@@ -876,14 +878,14 @@ int flipWhiteE(Slot **brdAry, int grid1, int grid2){
         //Move east one spot
         grid2++;
 
-    while(brdAry[grid1][grid2].slotVal == 1){//looping until something other than 1 is found
-        brdAry[grid1][grid2].slotVal += 1;//Changing white piece to black
+    while(brdAry[grid1][grid2].getSlotVal() == 1){//looping until something other than 1 is found
+        brdAry[grid1][grid2].setSlotVal(2);//Changing white piece to black
         //Move east one spot
         grid2++;
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 2)
+    if (brdAry[grid1][grid2].getSlotVal() == 2)
         return 1;
     else return 0;
 }//End Function Flip WhiteE
@@ -896,9 +898,9 @@ int checkForWhiteSE(Slot **brdAry, int grid1, int grid2){
         grid2++;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 1);
+    }while(brdAry[grid1][grid2].getSlotVal() == 1);
 
-    if (brdAry[grid1][grid2].slotVal == 2 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 2 && check > 1)
         return 1;
     else return 0;
 }//End function checkForWhiteSE
@@ -909,15 +911,15 @@ int flipWhiteSE(Slot **brdAry, int grid1, int grid2){
         grid1++;
         grid2++;
 
-    while(brdAry[grid1][grid2].slotVal == 1){//looping until something other than 1 is found
-        brdAry[grid1][grid2].slotVal += 1;//Changing white piece to black
+    while(brdAry[grid1][grid2].getSlotVal() == 1){//looping until something other than 1 is found
+        brdAry[grid1][grid2].setSlotVal(2);//Changing white piece to black
         //Move southeast one spot
         grid1++;
         grid2++;
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 2)
+    if (brdAry[grid1][grid2].getSlotVal() == 2)
         return 1;
     else return 0;
 }//End Function Flip WhiteSE
@@ -929,9 +931,9 @@ int checkForWhiteS(Slot **brdAry, int grid1, int grid2){
         grid1++;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 1);
+    }while(brdAry[grid1][grid2].getSlotVal() == 1);
 
-    if (brdAry[grid1][grid2].slotVal == 2 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 2 && check > 1)
         return 1;
     else return 0;
 }//End function checkForWhiteS
@@ -942,13 +944,13 @@ int flipWhiteS(Slot **brdAry, int grid1, int grid2){
         grid1++;
 
 
-    while(brdAry[grid1][grid2].slotVal == 1){//looping until something other than 1 is found
-        brdAry[grid1][grid2].slotVal += 1;//Changing white piece to black
+    while(brdAry[grid1][grid2].getSlotVal() == 1){//looping until something other than 1 is found
+        brdAry[grid1][grid2].setSlotVal(2);//Changing white piece to black
         //Move south one spot
         grid1++;
         };
 
-    if (brdAry[grid1][grid2].slotVal == 2)
+    if (brdAry[grid1][grid2].getSlotVal() == 2)
         return 1;
     else return 0;
 }//End Function Flip WhiteS
@@ -961,9 +963,9 @@ int checkForWhiteSW(Slot **brdAry, int grid1, int grid2){
         grid2--;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 1);
+    }while(brdAry[grid1][grid2].getSlotVal() == 1);
 
-    if (brdAry[grid1][grid2].slotVal == 2 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 2 && check > 1)
         return 1;
     else return 0;
 }//End function checkForWhiteSW
@@ -974,15 +976,15 @@ int flipWhiteSW(Slot **brdAry, int grid1, int grid2){
         grid1++;
         grid2--;
 
-    while(brdAry[grid1][grid2].slotVal == 1){//looping until something other than 1 is found
-        brdAry[grid1][grid2].slotVal += 1;//Changing white piece to black
+    while(brdAry[grid1][grid2].getSlotVal() == 1){//looping until something other than 1 is found
+        brdAry[grid1][grid2].setSlotVal(2);//Changing white piece to black
         //Move southwest one spot
         grid1++;
         grid2--;
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 2)
+    if (brdAry[grid1][grid2].getSlotVal() == 2)
         return 1;
     else return 0;
 }//End Function Flip WhiteSW
@@ -994,9 +996,9 @@ int checkForWhiteW(Slot **brdAry, int grid1, int grid2){
         grid2--;
         check++;
 
-    }while(brdAry[grid1][grid2].slotVal == 1);
+    }while(brdAry[grid1][grid2].getSlotVal() == 1);
 
-    if (brdAry[grid1][grid2].slotVal == 2 && check > 1)
+    if (brdAry[grid1][grid2].getSlotVal() == 2 && check > 1)
         return 1;
     else return 0;
 }//End function checkForWhiteW
@@ -1006,14 +1008,14 @@ int flipWhiteW(Slot **brdAry, int grid1, int grid2){
         //Move west one spot
         grid2--;
 
-    while(brdAry[grid1][grid2].slotVal == 1){//looping until something other than 2 is found
-        brdAry[grid1][grid2].slotVal += 1;//Changing black piece to white
+    while(brdAry[grid1][grid2].getSlotVal() == 1){//looping until something other than 2 is found
+        brdAry[grid1][grid2].setSlotVal(2);//Changing black piece to white
         //Move west one spot
         grid2--;
 
     };
 
-    if (brdAry[grid1][grid2].slotVal == 2)
+    if (brdAry[grid1][grid2].getSlotVal() == 2)
         return 1;
     else return 0;
 }//End Function Flip WhiteW
