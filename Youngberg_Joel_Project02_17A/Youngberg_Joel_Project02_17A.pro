@@ -7,5 +7,6 @@ SOURCES += main.cpp
 
 HEADERS += \
     SlotBase.h \
-    Slot.h
+    Slot.h \
+    PolymorphicSlot.h
 

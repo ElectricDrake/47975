@@ -12,9 +12,12 @@ private:
     string empty;
     string invis;
 
+
 public:
+    T prsAmt;
     SlotBase();//Constructor
     void setSlotVal(T);
+    void setPrsAmt(T);
     T getSlotVal();
     string getBlack();
     string getWhite();
@@ -23,7 +26,7 @@ public:
 
 };
 
-template <class T>
+template <class T>//Templated class created here for assignment requirements although pointless to game
 SlotBase<T>::SlotBase(){//Constructor Initialization
     slotVal = 0;
     white = " *";
@@ -61,6 +64,11 @@ string SlotBase<T>::getEmpty(){
 template <class T>
 string SlotBase<T>::getInvis(){
     return invis;
+}
+
+template <class T>
+void SlotBase<T>::setPrsAmt(T val){
+prsAmt = val;
 }
 
 

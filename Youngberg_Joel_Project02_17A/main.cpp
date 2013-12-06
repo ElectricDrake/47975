@@ -15,6 +15,8 @@
 #include <fstream>//Read & Write to file
 #include "SlotBase.h"
 #include "Slot.h"
+#include "PolymorphicSlot.h"
+
 using namespace std;
 
 //Global variables and constants
@@ -387,17 +389,43 @@ int main()
                 tlBlack++;
         }
     }
+
+    //Creating objects for polymorphism demonstration - bonus points
+    PolySlot<int> poly;
+    Slot<int> slot;
+    poly.setPrsAmt(100);
+    slot.setPrsAmt(50);
+
+
     if (tlWhite > tlBlack){
         cout << endl;
         cout << "White wins the game!!!!" << endl;
+        //Demonstration of polymorphism bonus points
+        if(tlWhite >= tlBlack + 10){
+        slot.praiseWinner();
+        tlWhite += 50;
+        }
+        if(tlWhite >= tlBlack + 20){
+        poly.praiseWinner();
+        tlWhite += 100;
+        }
         cout << "White total score: " << tlWhite << " pieces" << endl;
         cout << "Black total score: " << tlBlack << " pieces" << endl;
         white++;
         sub = 1;
-    }
+        }
     else if (tlBlack > tlWhite){
         cout << endl;
         cout << "Black wins the game!!!!" << endl;
+        //Demonstration of polymorphism bonus points
+        if(tlBlack >= tlWhite + 10){
+        slot.praiseWinner();
+        tlBlack += 50;
+        }
+        if(tlBlack >= tlWhite + 20){
+        poly.praiseWinner();
+        tlBlack += 100;
+        }
         cout << "Black total score: " << tlBlack << " pieces" << endl;
         cout << "White total score: " << tlWhite << " pieces" << endl;
         black++;
