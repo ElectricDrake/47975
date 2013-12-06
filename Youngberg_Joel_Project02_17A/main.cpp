@@ -26,48 +26,48 @@ using namespace std;
 
 //All function prototypes
 //Board display
-void displayBoard(Slot **, int, int);
+void displayBoard(Slot<int> **, int, int);
 //White move prototypes
-int checkForBlackNW(Slot **, int, int);
-int flipBlackNW(Slot **, int, int);
-int checkForBlackN(Slot **, int, int);
-int flipBlackN(Slot **, int, int);
-int checkForBlackNE(Slot **, int, int);
-int flipBlackNE(Slot **, int, int);
-int checkForBlackE(Slot **, int, int);
-int flipBlackE(Slot **, int, int);
-int checkForBlackSE(Slot **, int, int);
-int flipBlackSE(Slot **, int, int);
-int checkForBlackS(Slot **, int, int);
-int flipBlackS(Slot **, int, int);
-int checkForBlackSW(Slot **, int, int);
-int flipBlackSW(Slot **, int, int);
-int checkForBlackW(Slot **, int, int);
-int flipBlackW(Slot **, int, int);
+int checkForBlackNW(Slot<int> **, int, int);
+int flipBlackNW(Slot<int> **, int, int);
+int checkForBlackN(Slot<int> **, int, int);
+int flipBlackN(Slot<int> **, int, int);
+int checkForBlackNE(Slot<int> **, int, int);
+int flipBlackNE(Slot<int> **, int, int);
+int checkForBlackE(Slot<int> **, int, int);
+int flipBlackE(Slot<int> **, int, int);
+int checkForBlackSE(Slot<int> **, int, int);
+int flipBlackSE(Slot<int> **, int, int);
+int checkForBlackS(Slot<int> **, int, int);
+int flipBlackS(Slot<int> **, int, int);
+int checkForBlackSW(Slot<int> **, int, int);
+int flipBlackSW(Slot<int> **, int, int);
+int checkForBlackW(Slot<int> **, int, int);
+int flipBlackW(Slot<int> **, int, int);
 //Black move prototypes
-int checkForWhiteNW(Slot **, int, int);
-int flipWhiteNW(Slot **, int, int);
-int checkForWhiteN(Slot **, int, int);
-int flipWhiteN(Slot **, int, int);
-int checkForWhiteNE(Slot **, int, int);
-int flipWhiteNE(Slot **, int, int);
-int checkForWhiteE(Slot **, int, int);
-int flipWhiteE(Slot **, int, int);
-int checkForWhiteSE(Slot **, int, int);
-int flipWhiteSE(Slot **, int, int);
-int checkForWhiteS(Slot **, int, int);
-int flipWhiteS(Slot **, int, int);
-int checkForWhiteSW(Slot **, int, int);
-int flipWhiteSW(Slot **, int, int);
-int checkForWhiteW(Slot **, int, int);
-int flipWhiteW(Slot **, int, int);
+int checkForWhiteNW(Slot<int> **, int, int);
+int flipWhiteNW(Slot<int> **, int, int);
+int checkForWhiteN(Slot<int> **, int, int);
+int flipWhiteN(Slot<int> **, int, int);
+int checkForWhiteNE(Slot<int> **, int, int);
+int flipWhiteNE(Slot<int> **, int, int);
+int checkForWhiteE(Slot<int> **, int, int);
+int flipWhiteE(Slot<int> **, int, int);
+int checkForWhiteSE(Slot<int> **, int, int);
+int flipWhiteSE(Slot<int> **, int, int);
+int checkForWhiteS(Slot<int> **, int, int);
+int flipWhiteS(Slot<int> **, int, int);
+int checkForWhiteSW(Slot<int> **, int, int);
+int flipWhiteSW(Slot<int> **, int, int);
+int checkForWhiteW(Slot<int> **, int, int);
+int flipWhiteW(Slot<int> **, int, int);
 
 //Starting executable code @ function main:
 int main()
 {
   //Declaring Variables
 
-    Slot **brdAry; //2Dimensional Array for board
+    Slot<int> **brdAry; //2Dimensional Array for board
     int NUM_ROWS, NUM_COLS;
     int grid1, grid2;//To hold user board choices
     int flipNW =0, flipN =0, flipNE =0, flipE =0;
@@ -103,10 +103,10 @@ int main()
     NUM_COLS = NUM_ROWS;//Board must always be square
     }while(NUM_ROWS < 8 || NUM_ROWS %2 != 0 || NUM_ROWS > 38);//Validation of size loop end
 
-    brdAry = new Slot*[NUM_ROWS];//Dynamically allocating 2D array of pointers
+    brdAry = new Slot<int>*[NUM_ROWS];//Dynamically allocating 2D array of pointers
 
         for (int i = 0; i < NUM_ROWS; i++)//Dynamically allocating 2D array of pointers
-        brdAry[i] = new Slot[NUM_COLS];
+        brdAry[i] = new Slot<int>[NUM_COLS];
 
     //This was no longer needed because the constructor does this initialization
         //upon creation of each object...
@@ -491,7 +491,7 @@ int main()
   ////////////////////////////////////////////////////////////////////////////////////////////
     return 0;
 }
-void displayBoard(Slot **brdAry, int NUM_ROWS, int NUM_COLS){
+void displayBoard(Slot<int> **brdAry, int NUM_ROWS, int NUM_COLS){
 
     cout << endl;
     cout << "    ";
@@ -521,7 +521,7 @@ void displayBoard(Slot **brdAry, int NUM_ROWS, int NUM_COLS){
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //Eight Directional Check & Flip Definitions White Move Checking for black//////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
-int checkForBlackNW(Slot **brdAry, int grid1, int grid2){
+int checkForBlackNW(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         grid1--;//Checking northwest one spot
@@ -533,7 +533,7 @@ int checkForBlackNW(Slot **brdAry, int grid1, int grid2){
         return 1;
     else return 0;
 }//End function checkForBlackNW
-int flipBlackNW(Slot **brdAry, int grid1, int grid2){
+int flipBlackNW(Slot<int> **brdAry, int grid1, int grid2){
 
         grid1--;//Move northwest one spot
         grid2--;
@@ -549,7 +549,7 @@ int flipBlackNW(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }// End Function Flip Black NW
 //////////////////////////////////////////////////////////////////////////////////////////////
-int checkForBlackN(Slot **brdAry, int grid1, int grid2){
+int checkForBlackN(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         grid1--;//Checking north one spot
@@ -561,7 +561,7 @@ int checkForBlackN(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForBlackN
 
-int flipBlackN(Slot **brdAry, int grid1, int grid2){
+int flipBlackN(Slot<int> **brdAry, int grid1, int grid2){
 
         grid1--;//Move north one spot
 
@@ -576,7 +576,7 @@ int flipBlackN(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip BlackN
 //////////////////////////////////////////////////////////////////////////////////////////////
-int checkForBlackNE(Slot **brdAry, int grid1, int grid2){
+int checkForBlackNE(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         grid1--;//Checking northeast one spot
@@ -590,7 +590,7 @@ int checkForBlackNE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForBlackNE
 
-int flipBlackNE(Slot **brdAry, int grid1, int grid2){
+int flipBlackNE(Slot<int> **brdAry, int grid1, int grid2){
 
         grid1--;//Move northeast one spot
         grid2++;
@@ -606,7 +606,7 @@ int flipBlackNE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip BlackNE
 /////////////////////////////////////////////////////////////////////////////////////////////
-int checkForBlackE(Slot **brdAry, int grid1, int grid2){
+int checkForBlackE(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         //Checking east one spot
@@ -620,7 +620,7 @@ int checkForBlackE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForBlackE
 
-int flipBlackE(Slot **brdAry, int grid1, int grid2){
+int flipBlackE(Slot<int> **brdAry, int grid1, int grid2){
 
         //Move east one spot
         grid2++;
@@ -636,7 +636,7 @@ int flipBlackE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip BlackE
 /////////////////////////////////////////////////////////////////////////////////////////////
-int checkForBlackSE(Slot **brdAry, int grid1, int grid2){
+int checkForBlackSE(Slot<int> **brdAry, int grid1, int grid2){
       int check =0;
     do{
         //Checking southeast one spot
@@ -651,7 +651,7 @@ int checkForBlackSE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForBlackSE
 
-int flipBlackSE(Slot **brdAry, int grid1, int grid2){
+int flipBlackSE(Slot<int> **brdAry, int grid1, int grid2){
 
         //Move southeast one spot
         grid1++;
@@ -670,7 +670,7 @@ int flipBlackSE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip BlackSE
 /////////////////////////////////////////////////////////////////////////////////////////////
-int checkForBlackS(Slot **brdAry, int grid1, int grid2){
+int checkForBlackS(Slot<int> **brdAry, int grid1, int grid2){
     int check =0;
     do{
         //Checking south one spot
@@ -684,7 +684,7 @@ int checkForBlackS(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForBlackS
 
-int flipBlackS(Slot **brdAry, int grid1, int grid2){
+int flipBlackS(Slot<int> **brdAry, int grid1, int grid2){
 
         //Move south one spot
         grid1++;
@@ -703,7 +703,7 @@ int flipBlackS(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip BlackS
 /////////////////////////////////////////////////////////////////////////////////////////////
-int checkForBlackSW(Slot **brdAry, int grid1, int grid2){
+int checkForBlackSW(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         //Checking southwest one spot
@@ -718,7 +718,7 @@ int checkForBlackSW(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForBlackSW
 
-int flipBlackSW(Slot **brdAry, int grid1, int grid2){
+int flipBlackSW(Slot<int> **brdAry, int grid1, int grid2){
 
         //Move southwest one spot
         grid1++;
@@ -737,7 +737,7 @@ int flipBlackSW(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip BlackSW
 /////////////////////////////////////////////////////////////////////////////////////////////
-int checkForBlackW(Slot **brdAry, int grid1, int grid2){
+int checkForBlackW(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         //Checking west one spot
@@ -751,7 +751,7 @@ int checkForBlackW(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForBlackW
 
-int flipBlackW(Slot **brdAry, int grid1, int grid2){
+int flipBlackW(Slot<int> **brdAry, int grid1, int grid2){
 
         //Move west one spot
         grid2--;
@@ -770,7 +770,7 @@ int flipBlackW(Slot **brdAry, int grid1, int grid2){
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //Eight Directional Check & Flip Definitions Black Move Checking for White//////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
-int checkForWhiteNW(Slot **brdAry, int grid1, int grid2){
+int checkForWhiteNW(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         grid1--;//Checking northwest one spot
@@ -783,7 +783,7 @@ int checkForWhiteNW(Slot **brdAry, int grid1, int grid2){
         return 1;
     else return 0;
 }//End function checkForWhiteNW
-int flipWhiteNW(Slot **brdAry, int grid1, int grid2){
+int flipWhiteNW(Slot<int> **brdAry, int grid1, int grid2){
 
         grid1--;//Move northwest one spot
         grid2--;
@@ -799,7 +799,7 @@ int flipWhiteNW(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }// End Function Flip White NW
 //////////////////////////////////////////////////////////////////////////////////////////////
-int checkForWhiteN(Slot **brdAry, int grid1, int grid2){
+int checkForWhiteN(Slot<int> **brdAry, int grid1, int grid2){
     int check =0;
     do{
         grid1--;//Checking north one spot
@@ -812,7 +812,7 @@ int checkForWhiteN(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForWhiteN
 
-int flipWhiteN(Slot **brdAry, int grid1, int grid2){
+int flipWhiteN(Slot<int> **brdAry, int grid1, int grid2){
 
         grid1--;//Move north one spot
 
@@ -828,7 +828,7 @@ int flipWhiteN(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip WhiteN
 //////////////////////////////////////////////////////////////////////////////////////////////
-int checkForWhiteNE(Slot **brdAry, int grid1, int grid2){
+int checkForWhiteNE(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         grid1--;//Checking northeast one spot
@@ -842,7 +842,7 @@ int checkForWhiteNE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForWhiteNE
 
-int flipWhiteNE(Slot **brdAry, int grid1, int grid2){
+int flipWhiteNE(Slot<int> **brdAry, int grid1, int grid2){
 
         grid1--;//Move northeast one spot
         grid2++;
@@ -859,7 +859,7 @@ int flipWhiteNE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip WhiteNE
 /////////////////////////////////////////////////////////////////////////////////////////////
-int checkForWhiteE(Slot **brdAry, int grid1, int grid2){
+int checkForWhiteE(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         //Checking east one spot
@@ -873,7 +873,7 @@ int checkForWhiteE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForWhiteE
 
-int flipWhiteE(Slot **brdAry, int grid1, int grid2){
+int flipWhiteE(Slot<int> **brdAry, int grid1, int grid2){
 
         //Move east one spot
         grid2++;
@@ -890,7 +890,7 @@ int flipWhiteE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip WhiteE
 /////////////////////////////////////////////////////////////////////////////////////////////
-int checkForWhiteSE(Slot **brdAry, int grid1, int grid2){
+int checkForWhiteSE(Slot<int> **brdAry, int grid1, int grid2){
     int check =0;
     do{
         //Checking southeast one spot
@@ -905,7 +905,7 @@ int checkForWhiteSE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForWhiteSE
 
-int flipWhiteSE(Slot **brdAry, int grid1, int grid2){
+int flipWhiteSE(Slot<int> **brdAry, int grid1, int grid2){
 
         //Move southeast one spot
         grid1++;
@@ -924,7 +924,7 @@ int flipWhiteSE(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip WhiteSE
 /////////////////////////////////////////////////////////////////////////////////////////////
-int checkForWhiteS(Slot **brdAry, int grid1, int grid2){
+int checkForWhiteS(Slot<int> **brdAry, int grid1, int grid2){
     int check =0;
     do{
         //Checking south one spot
@@ -938,7 +938,7 @@ int checkForWhiteS(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForWhiteS
 
-int flipWhiteS(Slot **brdAry, int grid1, int grid2){
+int flipWhiteS(Slot<int> **brdAry, int grid1, int grid2){
 
         //Move south one spot
         grid1++;
@@ -955,7 +955,7 @@ int flipWhiteS(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip WhiteS
 /////////////////////////////////////////////////////////////////////////////////////////////
-int checkForWhiteSW(Slot **brdAry, int grid1, int grid2){
+int checkForWhiteSW(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         //Checking southwest one spot
@@ -970,7 +970,7 @@ int checkForWhiteSW(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForWhiteSW
 
-int flipWhiteSW(Slot **brdAry, int grid1, int grid2){
+int flipWhiteSW(Slot<int> **brdAry, int grid1, int grid2){
 
         //Move southwest one spot
         grid1++;
@@ -989,7 +989,7 @@ int flipWhiteSW(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End Function Flip WhiteSW
 /////////////////////////////////////////////////////////////////////////////////////////////
-int checkForWhiteW(Slot **brdAry, int grid1, int grid2){
+int checkForWhiteW(Slot<int> **brdAry, int grid1, int grid2){
      int check =0;
     do{
         //Checking west one spot
@@ -1003,7 +1003,7 @@ int checkForWhiteW(Slot **brdAry, int grid1, int grid2){
     else return 0;
 }//End function checkForWhiteW
 
-int flipWhiteW(Slot **brdAry, int grid1, int grid2){
+int flipWhiteW(Slot<int> **brdAry, int grid1, int grid2){
 
         //Move west one spot
         grid2--;

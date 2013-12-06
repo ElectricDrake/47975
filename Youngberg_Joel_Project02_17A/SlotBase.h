@@ -3,10 +3,10 @@
 #include <string>
 using namespace std;
 
-
+template <class T>
 class SlotBase{
 private:
-    int slotVal;
+    T slotVal;
     string white;
     string black;
     string empty;
@@ -14,8 +14,8 @@ private:
 
 public:
     SlotBase();//Constructor
-    void setSlotVal(int);
-    int getSlotVal();
+    void setSlotVal(T);
+    T getSlotVal();
     string getBlack();
     string getWhite();
     string getEmpty();
@@ -23,7 +23,8 @@ public:
 
 };
 
-SlotBase::SlotBase(){//Constructor Initialization
+template <class T>
+SlotBase<T>::SlotBase(){//Constructor Initialization
     slotVal = 0;
     white = " *";
     black = " O";
@@ -32,27 +33,33 @@ SlotBase::SlotBase(){//Constructor Initialization
 
 }
 //Getter and Setter Functions
-void SlotBase::setSlotVal(int val){
+template <class T>
+void SlotBase<T>::setSlotVal(T val){
 slotVal = val;
 }
 
-int SlotBase::getSlotVal(){
+template <class T>
+T SlotBase<T>::getSlotVal(){
 return slotVal;
 }
 
-string SlotBase::getBlack(){
+template <class T>
+string SlotBase<T>::getBlack(){
     return black;
 }
 
-string SlotBase::getWhite(){
+template <class T>
+string SlotBase<T>::getWhite(){
     return white;
 }
 
-string SlotBase::getEmpty(){
+template <class T>
+string SlotBase<T>::getEmpty(){
     return empty;
 }
 
-string SlotBase::getInvis(){
+template <class T>
+string SlotBase<T>::getInvis(){
     return invis;
 }
 
