@@ -403,9 +403,10 @@ int main()
         //Demonstration of polymorphism bonus points
         if(tlWhite >= tlBlack + 10){
         slot.praiseWinner();
+        cout << "White score before bonus: " << tlWhite <<endl;
         tlWhite += 50;
         }
-        if(tlWhite >= tlBlack + 20){
+        if(tlWhite >= tlBlack + 70){//Accounting for bonus 50 already received
         poly.praiseWinner();
         tlWhite += 100;
         }
@@ -420,9 +421,10 @@ int main()
         //Demonstration of polymorphism bonus points
         if(tlBlack >= tlWhite + 10){
         slot.praiseWinner();
+        cout << "Black score before bonus: " << tlBlack << endl;
         tlBlack += 50;
         }
-        if(tlBlack >= tlWhite + 20){
+        if(tlBlack >= tlWhite + 70){//Accounting for bonus 50 already received
         poly.praiseWinner();
         tlBlack += 100;
         }
