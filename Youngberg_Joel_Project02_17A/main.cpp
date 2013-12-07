@@ -1,5 +1,5 @@
 /*
- *File: Project 01 17A
+ *File: Project 02 17A
  *Author: Joel Youngberg
  *Date Created: 09 Oct 13
  *Title: Othello/Reversi
@@ -13,9 +13,9 @@
 #include <iomanip>//Formatting
 #include <string>//For strings
 #include <fstream>//Read & Write to file
-#include "SlotBase.h"
-#include "Slot.h"
-#include "PolymorphicSlot.h"
+#include "SlotBase.h"//Base class/object
+#include "Slot.h"//Inherited polymorphic class/object
+#include "PolymorphicSlot.h"//Inherited polymorphic class/object
 
 using namespace std;
 
